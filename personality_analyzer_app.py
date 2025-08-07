@@ -1,69 +1,62 @@
-# personality_analyzer_app.py
-
-pip install -r requirements.txt
-
-import os
 import streamlit as st
+import os
 from crewai import Agent, Crew, Task
 from langchain.chat_models import ChatOpenAI
 
-# Initialize the LLM
+# Load API Key from environment
 openai_api_key = os.environ.get("OPENAI_API_KEY")
+if not openai_api_key:
+    st.error("Please set your OpenAI API key in Streamlit Cloud secrets.")
+    st.stop()
+
+# Initialize the LLM
 llm = ChatOpenAI(openai_api_key=openai_api_key, model='gpt-4')
 
 # Define the agents
 text_analyzer = Agent(
     role='Tone & Emotion Analyzer',
     goal='Identify sentiment, emotional tone, and writing style',
-    backstory='An expert in psychology and linguistics trained to assess mood and tone in language.',
+    backstory='An expert in psychology and linguistics.',
     llm=llm,
 )
 
 personality_profiler = Agent(
     role='Personality Profiler',
     goal='Infer Big Five and MBTI types based on writing',
-    backstory='A seasoned psychological profiler with expertise in behavioral analysis and psychometrics.',
+    backstory='A seasoned psychological profiler.',
     llm=llm,
 )
 
 recommender = Agent(
     role='Lifestyle Recommender',
     goal='Give personalized self-help, career, and reading suggestions based on personality traits',
-    backstory='A life coach and career mentor who specializes in matching personality types to ideal resources.',
+    backstory='A life coach and mentor.',
     llm=llm,
 )
 
-# Define the tasks
-user_text = ""  # This will be updated dynamically in Streamlit
-
+# Define tasks (we will inject user_text later)
 tasks = [
-    Task(agent=text_analyzer, description="Analyze the tone, sentiment, and emotional content of the input text."),
-    Task(agent=personality_profiler, description="Generate a Big Five and MBTI profile based on the text."),
-    Task(agent=recommender, description="Suggest tailored advice, books, and career paths based on the personality profile."),
+    Task(agent=text_analyzer, description="Analyze tone and emotional content."),
+    Task(agent=personality_profiler, description="Generate a personality profile."),
+    Task(agent=recommender, description="Provide recommendations based on profile.")
 ]
 
-crew = Crew(
-    agents=[text_analyzer, personality_profiler, recommender],
-    tasks=tasks,
-    verbose=True
-)
+crew = Crew(agents=[text_analyzer, personality_profiler, recommender], tasks=tasks)
 
 # Streamlit UI
 st.title("🧠 AI Personality Analyzer")
 
-user_text = st.text_area("Paste your writing sample (journal entry, essay, etc.):", height=250)
+user_text = st.text_area("Paste a writing sample (e.g. journal entry, email):", height=250)
 
 if st.button("Analyze") and user_text:
-    with st.spinner("Analyzing with AI agents..."):
-        # Set input dynamically for each task
+    with st.spinner("Analyzing with your AI crew..."):
         for task in crew.tasks:
             task.input = user_text
-
         results = crew.run()
-
-        st.subheader("🧾 Analysis Report")
-        for output in results:
-            st.markdown(f"### {output['task']}")
-            st.write(output['output'])
+        st.subheader("🧾 Results")
+        for r in results:
+            st.markdown(f"### {r['task']}")
+            st.write(r['output'])
 else:
-    st.info("Please paste a text sample and click 'Analyze' to get started.")
+    st.info("Paste some text and click Analyze.")
+
