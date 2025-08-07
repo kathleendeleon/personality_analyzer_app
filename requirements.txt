@@ -1,5 +1,4 @@
 streamlit
-crewai==0.157.0
 langchain-core==0.1.16
 langchain-openai==0.0.6
 openai>=1.30.1
