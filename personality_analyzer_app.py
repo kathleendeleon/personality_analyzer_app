@@ -2,7 +2,7 @@ import streamlit as st
 import os
 from langchain_openai import ChatOpenAI
 from langchain_core.messages import SystemMessage, HumanMessage
-from openai.error import RateLimitError
+from openai import RateLimitError
 
 # Load OpenAI API key from Streamlit Secrets
 api_key = os.environ.get("OPENAI_API_KEY")
