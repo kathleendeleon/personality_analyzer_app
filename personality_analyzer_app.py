@@ -8,8 +8,9 @@ api_key = os.environ.get("OPENAI_API_KEY")
 if not api_key:
     st.error("Missing OpenAI API key.")
     st.stop()
-
-llm = ChatOpenAI(api_key=api_key, model="gpt-4")
+    
+llm = ChatOpenAI(api_key=api_key, model="gpt-3.5-turbo")
+#llm = ChatOpenAI(api_key=api_key, model="gpt-4")
 
 # Streamlit UI setup
 st.set_page_config(page_title="Personality Analyzer", page_icon="🧠")
