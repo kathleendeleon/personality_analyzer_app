@@ -1,7 +1,7 @@
 import streamlit as st
 import os
 from crewai import Agent, Crew, Task
-from langchain.chat_models import ChatOpenAI
+from langchain-openai.chat_models import ChatOpenAI
 
 # Load API Key from environment
 openai_api_key = os.environ.get("OPENAI_API_KEY")
