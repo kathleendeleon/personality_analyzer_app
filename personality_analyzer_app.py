@@ -1,5 +1,6 @@
 # personality_analyzer_app.py
-pip install crewai
+
+pip install -r requirements.txt
 
 import streamlit as st
 from crewai import Agent, Crew, Task
