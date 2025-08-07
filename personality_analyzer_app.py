@@ -14,7 +14,7 @@ llm = ChatOpenAI(api_key=api_key, model="gpt-3.5-turbo")
 
 # Streamlit UI setup
 st.set_page_config(page_title="Personality Analyzer", page_icon="🧠")
-st.title("🧠 AI Personality Analyzer")
+st.title("🧠 Kath's AI Personality Analyzer")
 st.markdown("Paste your writing sample below and discover your personality profile based on tone, traits, and helpful suggestions.")
 
 user_text = st.text_area("✍️ Your text:", height=250)
