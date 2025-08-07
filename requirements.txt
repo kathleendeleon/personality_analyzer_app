@@ -1,0 +1,3 @@
+crewai
+streamlit
+langchain.chat_models
