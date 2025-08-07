@@ -2,12 +2,14 @@
 
 pip install -r requirements.txt
 
+import os
 import streamlit as st
 from crewai import Agent, Crew, Task
 from langchain.chat_models import ChatOpenAI
 
 # Initialize the LLM
-llm = ChatOpenAI(model='gpt-4')
+openai_api_key = os.environ.get("OPENAI_API_KEY")
+llm = ChatOpenAI(openai_api_key=openai_api_key, model='gpt-4')
 
 # Define the agents
 text_analyzer = Agent(
