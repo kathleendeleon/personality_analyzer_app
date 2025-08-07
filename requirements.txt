@@ -1,3 +1,5 @@
-crewai
 streamlit
-langchain.chat_models
+crewai>=0.20.3
+langchain
+openai
+python-dotenv
