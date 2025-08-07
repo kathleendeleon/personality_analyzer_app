@@ -1,3 +1,4 @@
+sqlite3>=3.35.0
 streamlit
 crewai>=0.20.3
 langchain
