@@ -1,6 +1,6 @@
-sqlite3>=3.35.0
 streamlit
-crewai>=0.20.3
-langchain
+crewai==0.20.3
+langchain-core
+langchain-openai
 openai
 python-dotenv
