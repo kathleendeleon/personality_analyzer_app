@@ -10,8 +10,8 @@ if not api_key:
     st.error("🔐 Missing OpenAI API key. Please set it in Streamlit Cloud secrets.")
     st.stop()
 
-#llm = ChatOpenAI(api_key=api_key, model="gpt-3.5-turbo")
-llm = ChatOpenAI(api_key=api_key, model="gpt-oss-20b")
+llm = ChatOpenAI(api_key=api_key, model="gpt-3.5-turbo")
+#llm = ChatOpenAI(api_key=api_key, model="gpt-oss-20b")
 
 # Streamlit UI setup
 st.set_page_config(page_title="Personality Analyzer", page_icon="🧠")
@@ -49,6 +49,6 @@ if st.button("🔍 Analyze"):
                 st.subheader("📋 Results")
                 st.markdown(result.content)
             except RateLimitError:
-                st.error("🚫 You’ve exceeded your OpenAI API quota. Please visit https://platform.openai.com/account/usage to check your usage or upgrade your plan.")
+                st.error("🚫💸💸💸 You have exceeded your OpenAI API credits. Please visit https://platform.openai.com/account/usage to check your usage or upgrade your plan.")
 
 
