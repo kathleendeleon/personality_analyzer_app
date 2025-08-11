@@ -10,7 +10,8 @@ if not api_key:
     st.error("🔐 Missing OpenAI API key. Please set it in Streamlit Cloud secrets.")
     st.stop()
 
-llm = ChatOpenAI(api_key=api_key, model="gpt-3.5-turbo")
+#llm = ChatOpenAI(api_key=api_key, model="gpt-3.5-turbo")
+llm = ChatOpenAI(api_key=api_key, model="gpt-oss-20b")
 
 # Streamlit UI setup
 st.set_page_config(page_title="Personality Analyzer", page_icon="🧠")
