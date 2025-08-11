@@ -16,7 +16,7 @@ llm = ChatOpenAI(api_key=api_key, model="gpt-3.5-turbo")
 st.set_page_config(page_title="Personality Analyzer", page_icon="🧠")
 st.title("🧠 Kath's AI Personality Analyzer")
 
-st.write("Note: Requires an OpenAI Paid Plan "+"[API Pricing](https://openai.com/api/pricing/)")
+st.write("<b>Note:</b> Requires an OpenAI Paid Plan "+"[API Pricing](https://openai.com/api/pricing/)")
 st.divider()
 
 st.markdown("Paste your writing sample below and discover your personality profile based on tone, traits, and helpful suggestions.")
