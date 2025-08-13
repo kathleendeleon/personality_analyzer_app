@@ -1,7 +1,8 @@
 import os
+import re
 import streamlit as st
 from langchain_openai import ChatOpenAI
-from langchain_core.messages import SystemMessage, HumanMessage
+from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
 from openai import APIError, AuthenticationError, RateLimitError, NotFoundError, BadRequestError
 
 st.set_page_config(page_title="Personality Analyzer", page_icon="🧠")
@@ -35,6 +36,28 @@ llm = ChatOpenAI(
     use_responses_api=True,   # ensure Responses API path
 )
 
+def _to_markdown(result) -> str:
+    """Normalize LangChain result.content into clean markdown text."""
+    # Typical LangChain return is an AIMessage
+    if isinstance(result, AIMessage):
+        parts = result.content
+        # If it's already a string, done
+        if isinstance(parts, str):
+            return parts.strip()
+        # If it's a list of content parts, pull out the text segments
+        if isinstance(parts, list):
+            out = []
+            for p in parts:
+                # p might be a dict {'type':'text','text':'...'}
+                if isinstance(p, dict) and p.get("type") == "text":
+                    out.append(p.get("text", ""))
+                # or a LangChain content object with .type/.text
+                elif hasattr(p, "type") and getattr(p, "type", None) == "text":
+                    out.append(getattr(p, "text", ""))
+            return "\n\n".join([t for t in out if t]).strip()
+    # Fallback: just string it
+    return str(result).strip()
+
 
 st.markdown("Paste your writing sample below and discover your personality profile based on tone, traits, and helpful suggestions.")
 user_text = st.text_area("✍️ Your text:", height=250)
@@ -51,7 +74,7 @@ if st.button("🔍 Analyze"):
                 "2) Big Five personality trait estimates (O,C,E,A,N)\n"
                 "3) A likely MBTI type\n"
                 "4) Personalized advice, plus 2 book or career recommendations\n"
-                "Be concise, accurate, and thoughtful."
+                "...Be concise, accurate, and thoughtful. **Return Markdown only.**"
             )
             messages = [
                 SystemMessage(content=system_prompt),
@@ -61,7 +84,14 @@ if st.button("🔍 Analyze"):
             try:
                 result = llm.invoke(messages)
                 st.subheader("📋 Results")
-                st.markdown(result.content)
+                clean_md = _to_markdown(result)
+
+                clean_md = re.sub(r"(?m)^\s*1\)\s*(.+)$", r"### 1) \1", clean_md)
+                clean_md = re.sub(r"(?m)^\s*2\)\s*(.+)$", r"### 2) \1", clean_md)
+                clean_md = re.sub(r"(?m)^\s*3\)\s*(.+)$", r"### 3) \1", clean_md)
+                clean_md = re.sub(r"(?m)^\s*4\)\s*(.+)$", r"### 4) \1", clean_md)
+
+                st.markdown(clean_md)
             except BadRequestError as e:
                 # Show full server message so you can see which param was rejected
                 st.error(f"Bad request: {e}")
