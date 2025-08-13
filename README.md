@@ -8,3 +8,10 @@ Goal: Allow users to input a text sample (e.g., journal entry, tweet, or essay) 
 
 Give it a try!
 https://personalityfun.streamlit.app/
+
+![screenshot](screenshots/app_homepage.png)
+
+# Result Example:
+
+![screenshot](screenshots/result1.png)
+![screenshot](screenshots/recommendation.png)
