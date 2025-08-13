@@ -90,6 +90,7 @@ if st.button("🔍 Analyze"):
                 clean_md = re.sub(r"(?m)^\s*2\)\s*(.+)$", r"### 2) \1", clean_md)
                 clean_md = re.sub(r"(?m)^\s*3\)\s*(.+)$", r"### 3) \1", clean_md)
                 clean_md = re.sub(r"(?m)^\s*4\)\s*(.+)$", r"### 4) \1", clean_md)
+                clean_md = re.sub(r"(?m)^\s*5\)\s*(.+)$", r"### 5) \1", clean_md)
 
                 st.markdown(clean_md)
             except BadRequestError as e:
