@@ -1,3 +1,5 @@
+# Requires: Python <3.14
+
 import os
 import re
 import json
