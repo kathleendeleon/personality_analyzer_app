@@ -17,7 +17,7 @@ from langgraph.graph import StateGraph, END
 
 # ----------------------- UI -----------------------
 st.set_page_config(page_title="Personality Analyzer — LangGraph Edition", page_icon="🧭", layout="wide")
-st.title("🧭 Personality Analyzer — LangGraph Edition")
+st.title("👩🏻‍💻 Kath's Personality Analyzer — LangGraph Edition")
 st.caption("LangGraph for orchestration + conditional routing to MBTI-category vacation plans.")
 
 with st.sidebar:
